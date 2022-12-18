@@ -1,0 +1,142 @@
+﻿<Window x:Class="Minha_Carteira.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Minha_Carteira"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+
+        mc:Ignorable="d"
+        Title="Catalog" Height="600" Width="800" MinHeight="630" MinWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid Background="AliceBlue" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label Foreground="#3B5999" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Grid.Column="1" Content="Minha Carteira" FontWeight="Bold"/>
+            <Image MaxWidth="30" MaxHeight="30" Grid.Column="0" Source="Images/Apresentação_sem_título__2_-removebg-preview 3logo.png" HorizontalAlignment="Right"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="AliceBlue"/>
+        <DataGrid x:Name="EntryDataGrid" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" ColumnWidth="*" Margin="4,5,6,5" IsSynchronizedWithCurrentItem="True" Background="#F7FAFC">
+
+
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Nome" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Descrição" Binding="{Binding Description}" />
+                <DataGridTextColumn Header="Data" Binding="{Binding Date}" />
+                <DataGridTextColumn Header="Categoria" Binding="{Binding Type}" />
+                <DataGridTextColumn x:Name="CurrentValue" Header="Valor" Binding="{Binding Value}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <Grid Background="AliceBlue" Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Margin="5" BorderThickness="1" BorderBrush="#3B5999" CornerRadius="15">
+                <StackPanel Background="AliceBlue" Margin="5">
+                    <Label Foreground="#3B5999" Margin="1" Content="Adicionar nova movimentação" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Black"/>
+                    <Grid Name="NewEntryGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="14*" />
+                            <RowDefinition Height="14*"/>
+                            <RowDefinition Height="17*"/>
+                            <RowDefinition Height="27.96"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="13*"/>
+                            <RowDefinition Height="25*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="Nome*" />
+                        <TextBox Margin="5" Name="Names" Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="Descrição" />
+                        <TextBox Margin="5" Grid.Row="1" Grid.Column="1" Text="{Binding Description}"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Content="Categoria*" />
+                        <Button Grid.Row="2" Grid.Column="0" Width="15" Height="15" FontSize="10" Padding="0" Foreground="White" Background="#505780" Content="+" VerticalContentAlignment="Center" Click="AddType" Margin="68,5,101,9">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="10"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <Button Grid.Row="2" Grid.Column="0" Width="15" Height="15" FontSize="10" Padding="0" Foreground="White" Background="Red" Content="-" VerticalContentAlignment="Center" Click="DeleteType" Margin="80,5,79,9">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="10"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <ComboBox  Name="Type" Grid.Row="2" Grid.Column="1" Text="{Binding Type}"  Margin="6" />
+
+                        <Label Grid.Row="3" Grid.Column="0" Content="Valor*" />
+                        <TextBox Margin="5" PreviewTextInput="Value_PreviewTextInput"  Name="Value" Grid.Row="3" Grid.Column="1" Text="{Binding Value}" />
+
+                        <CheckBox Name="Expsense" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Content="Gastei"></CheckBox>
+                        <CheckBox Name="Gain" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" Content="Ganhei"></CheckBox>
+
+                        <Label Grid.Row="5" Grid.Column="0" Content="Data*" />
+                        <DatePicker Name="Date" Grid.Row ="5"  Grid.Column="1" Language="pt-BR" Text="{Binding Path=Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="26" Grid.RowSpan="2" VerticalAlignment="Top"/>
+
+                        <Button  Foreground="White" Background="#505780" Grid.Row="6" Grid.ColumnSpan="2" Width="150" Content="Adicionar" Margin="15" Click="AddItem" >
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                    </Grid>
+
+
+                </StackPanel>
+
+            </Border>
+
+            <Grid Grid.ColumnSpan="2" Margin="399,0,1,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                <Border Name="BalanceBack" Background="LightBlue" Grid.Row="0" Margin="19,151,19,49" CornerRadius="20" BorderThickness="1" BorderBrush="Blue">
+                    <TextBlock Foreground="#505780"  Name="Balance" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Inter" FontWeight="Bold" FontSize="25" >Saldo Atual: R$</TextBlock>
+                </Border>
+
+                <Button VerticalAlignment="Top" Foreground="White" Background="Red" Grid.Row="1"  Width="150" Content="Deletar" Margin="125,10,125,0" Click="DeleteItem" >
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+            </Grid>
+            <ComboBox SelectionChanged="CostType_SelectionChanged"  Name="CostType" Grid.Column="1" HorizontalAlignment="Left" Margin="39,65,0,0" VerticalAlignment="Top" Width="120"/>
+            <TextBlock Name="cost" Grid.Column="1" HorizontalAlignment="Left" Margin="265,68,0,0" VerticalAlignment="Top">R$</TextBlock>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0,17,0,0" VerticalAlignment="Top" Width="150" FontFamily="Inter" FontWeight="Bold" FontSize="15" Foreground="#505780">Gasto Por Categotria</TextBlock>
+
+
+
+        </Grid>
+    </Grid>
+</Window>
